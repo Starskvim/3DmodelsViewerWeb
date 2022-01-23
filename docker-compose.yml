@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_LOGIN: postgres
+      POSTGRES_PASSWORD: 1998
+    ports:
+      - 5432:5432
+    networks:
+      - 3dModel
+
+  spring:
+    image: web1:latest
+    depends_on:
+      - db
+    ports:
+      - 8189:8189
+    networks:
+      - 3dModel
+
+networks:
+  3dModel:
+    driver: bridge
