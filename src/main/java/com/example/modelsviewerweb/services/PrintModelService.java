@@ -25,9 +25,6 @@ public class PrintModelService {
         return modelRepositoryJPA.findAll();
     }
 
-    public List<PrintModel> getAllModelListByPageService(int page){
-        return modelRepositoryJPA.findAll(PageRequest.of(page, 40)).toList();
-    }
 
     public Page<PrintModel> findAllModelByPageAndSpecsService(Specification<PrintModel> modelSpecification, Pageable pageable){
         return modelRepositoryJPA.findAll(modelSpecification, pageable);
@@ -37,14 +34,10 @@ public class PrintModelService {
         return modelRepositoryZIPJPA.findAll(pageable);
     }
 
-
     public PrintModel getById (Long id) {
         return modelRepositoryJPA.findById(id).orElse(null);
     }
 
-    public void openFolderOrFile (String adress) throws IOException {
-        Runtime.getRuntime().exec("explorer.exe /select," + adress);
-    }
 
     public List<PrintModel> searchByModelNameService (String word, int page) {
         return modelRepositoryJPA.findAllBymodelNameLikeIgnoreCase(word, PageRequest.of(page, 50)).toList();

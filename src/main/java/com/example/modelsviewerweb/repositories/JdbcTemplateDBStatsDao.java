@@ -2,6 +2,7 @@ package com.example.modelsviewerweb.repositories;
 
 import com.example.modelsviewerweb.controllers.response.DBStatsResponse;
 import com.example.modelsviewerweb.controllers.response.DBStatsResponseMapper;
+import com.example.modelsviewerweb.dao.DBStatsDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

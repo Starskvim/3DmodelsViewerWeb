@@ -1,13 +1,10 @@
 package com.example.modelsviewerweb.controllers;
 
-
-import com.example.modelsviewerweb.dto.ModelOTHDTO;
 import com.example.modelsviewerweb.dto.PrintModelDTO;
 import com.example.modelsviewerweb.entities.ModelOTH;
 import com.example.modelsviewerweb.entities.ModelZIP;
 import com.example.modelsviewerweb.entities.PrintModel;
 import com.example.modelsviewerweb.repositories.specifications.ModelSpecs;
-import com.example.modelsviewerweb.services.CreateSyncObjService;
 import com.example.modelsviewerweb.services.PrintModelService;
 import com.example.modelsviewerweb.services.SerializeService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +27,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PrintModelController {
     private final PrintModelService printModelService;
-
-    private final CreateSyncObjService createSyncObjService;
 
     private final SerializeService serializeService;
 
@@ -86,59 +81,6 @@ public class PrintModelController {
         return "zipPage";
     }
 
-//    @GetMapping("/start")
-//    public String startSkanController() {
-//        try {
-//            printModelService.startFolderScanService();
-//        } catch (IOException a) {
-//            return "redirect:/models";
-//        }
-//        return "redirect:/models";
-//    }
-
-//    @GetMapping("/startCreate")
-//    public String startCreateController() {
-//        long start = System.currentTimeMillis();
-//        try {
-//            createObjService.startCreateOBJService();
-//
-//            //printModelService.startFolderCreateService();
-//
-//        } catch (IOException a) {
-//            System.out.println("IOException");
-//        }
-//        long fin = System.currentTimeMillis();
-//        System.out.println("startCreateController time create - " + (fin - start));
-//        return "redirect:/models";
-//    }
-
-    @GetMapping("/sync")
-    public String startSyncController() {
-        long start = System.currentTimeMillis();
-        try {
-            createSyncObjService.startSyncOBJRepository();
-        } catch (IOException a) {
-            System.out.println("IOException");
-        }
-        long fin = System.currentTimeMillis();
-        System.out.println("startSyncController time create - " + (fin - start));
-
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        return "admin";
-    }
-
-//    @GetMapping("/syncFolder")
-//    public String startSyncFolderController() {
-//        long start = System.currentTimeMillis();
-//        folderSyncService.startSyncFolderService();
-//        long fin = System.currentTimeMillis();
-//        System.out.println("startSyncFolderController time sync - " + (fin - start));
-//        return "admin";
-//    }
 
     @GetMapping("/serialization")
     public String startSerializationController() {
@@ -166,17 +108,9 @@ public class PrintModelController {
         return "admin";
     }
 
-
-
-
     @GetMapping("/good")
     public String startGood() {
         return "good";
-    }
-
-    @GetMapping("/admin")
-    public String startAdmin() {
-        return "admin";
     }
 
 
@@ -198,14 +132,6 @@ public class PrintModelController {
         return "modelPage";
     }
 
-    @PostMapping("/modelPage")
-    public String showModelListByPageController(Model model, @ModelAttribute(value = "page") int page) {
-
-        model.addAttribute("models", printModelService.getAllModelListByPageService(page));
-
-        return "models";
-    }
-
 
     @PostMapping("/search_name")
     public String searchByNameController(Model model, @ModelAttribute(value = "word") String word) {
@@ -214,45 +140,22 @@ public class PrintModelController {
         model.addAttribute("models", printModelService.searchByModelNameService(word, 0));
         return "models";
     }
+    
 
 
-    @RequestMapping(value = "/open", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    public void openController(@RequestParam(value = "path") String path) {
-        try {
-            printModelService.openFolderOrFile(path);
-        } catch (IOException a) {
-            System.out.println(a + "  -  " + path);
-        }
-    }
+    public List<Integer> preparePageInt(int current, int totalPages) {
 
+        List<Integer> pageNumbers = new ArrayList<>();
 
-    public ArrayList<Integer> preparePageInt(int current, int totalPages) {
-
-        ArrayList<Integer> pageNumbers = new ArrayList<>();
-
+        int start = Math.max(current - 3, 0);
+        int end = Math.min(totalPages, start + 9);
         pageNumbers.add(0);
-        if (current >= 2) {
-            pageNumbers.add(current - 1);
-            pageNumbers.add(current);
-        } else if (current == 1 || current == 0){
-            pageNumbers.add(1);
-        }
-        for (int i = 0; i < 11; i++) {
-            current += 1;
-            if (current > totalPages - 2){
-                for ( i = current; i < totalPages - current; i++){
-                    current++;
-                    pageNumbers.add(current);
-                }
-                break;
-            }
-            if (!(current == 1)) {
-                pageNumbers.add(current);
+        for (int i = start; i < end; i++) {
+            if (i != 0 && i != totalPages - 1) {
+                pageNumbers.add(i);
             }
         }
-        pageNumbers.add(totalPages);
+        pageNumbers.add(totalPages - 1);
         return pageNumbers;
     }
 
