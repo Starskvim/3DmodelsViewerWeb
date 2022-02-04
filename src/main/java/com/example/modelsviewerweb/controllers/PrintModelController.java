@@ -46,7 +46,7 @@ public class PrintModelController {
         }
         if (wordCategory != null) {
             spec = spec.and(ModelSpecs.modelCategoryContains(wordCategory));
-            filters.append("@word-" + wordCategory);
+            filters.append("@word-").append(wordCategory);
         }
 
 
@@ -140,7 +140,7 @@ public class PrintModelController {
         model.addAttribute("models", printModelService.searchByModelNameService(word, 0));
         return "models";
     }
-    
+
 
 
     public List<Integer> preparePageInt(int current, int totalPages) {
