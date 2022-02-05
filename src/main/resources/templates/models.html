@@ -64,7 +64,7 @@
             </th>
 
             <th>
-                <form th:action="@{/models/admin}"
+                <form th:action="@{/admin}"
                       method="get" target=»_blank» class="form-horizontal myButtonHead">
                     <div style="margin-bottom: 14px; width: 25%" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -141,12 +141,8 @@
     <table class="table table-hover">
         <thead>
 
-        <span th:text="${'Всего моделей на странице ' + models.size()}"/>
-        <br>
-
         <tr>
             <th>Preview</th>
-            <!--            <th>ID</th>-->
             <th>Category</th>
             <th>modelName</th>
             <th>Действия</th>
@@ -156,12 +152,11 @@
         <tbody>
         <tr th:each="model : ${models}">
             <th>
-                <img th:src="'data:image/png;base64,' + ${model.compressPreview}" alt="None"
+                <img th:src="'data:image/png;base64,' + ${model.previewModel.getPreviewOth}" alt="None"
                      class="imagePreveiw"/>
             </th>
-            <!--            <td th:text="${model.id}"/>-->
-            <td th:text="${model.modelCategory}"/>
-            <td th:text="${model.modelName}"/>
+            <td th:text="${model.modelCategory}"></td>
+            <td th:text="${model.modelName}"></td>
             <td class="Link">
                 <a th:href="@{'/models/modelOBJ/' + ${model.id}}" target=»_blank» th:text="Просмотр"/>
             </td>

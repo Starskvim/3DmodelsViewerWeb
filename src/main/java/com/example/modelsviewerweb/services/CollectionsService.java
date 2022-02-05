@@ -49,7 +49,7 @@ public class CollectionsService {
     public void saveAllListToJpaRepository () {
 
         long start = System.currentTimeMillis();
-        
+
 
 
 

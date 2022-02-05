@@ -76,6 +76,19 @@
     </table>
 </div>
 
+<div class="container">
+    <form method="POST" enctype="multipart/form-data" th:action="@{/admin/upload}">
+        <table id="serialization" class="table table-hover ">
+            <tr>
+                <input class="btn" type="file" name="file">
+            </tr>
+            <tr>
+                <input class="btn" type="submit" value="Upload"> Upload
+            </tr>
+        </table>
+    </form>
+</div>
+
 
 <div class="container">
     <table id="statsTable" class="invisibleLoad table table-hover ">

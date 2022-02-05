@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -44,6 +45,18 @@ public class PrintModelWeb {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn
-    private Collection<PrintModelOthWeb> modelOthList;
+    private List<PrintModelOthWeb> modelOthList = new ArrayList<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PrintModelWeb that = (PrintModelWeb) o;
+        return modelName.equals(that.modelName) && modelSize.equals(that.modelSize) && modelCategory.equals(that.modelCategory) && modelPath.equals(that.modelPath);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(modelName, modelSize, modelCategory, modelPath);
+    }
 }

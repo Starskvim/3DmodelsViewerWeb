@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -25,5 +26,18 @@ public class PrintModelTagWeb {
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,
             mappedBy="modelTags")
-    private List<PrintModel> printModels = new ArrayList<>();
+    private List<PrintModelWeb> printModels = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PrintModelTagWeb that = (PrintModelTagWeb) o;
+        return nameTag.equals(that.nameTag) && Objects.equals(printModels, that.printModels);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nameTag, printModels);
+    }
 }

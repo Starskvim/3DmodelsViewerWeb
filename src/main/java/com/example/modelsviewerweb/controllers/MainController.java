@@ -1,11 +1,19 @@
 package com.example.modelsviewerweb.controllers;
 
+import com.example.modelsviewerweb.services.SerializeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
 
+    private final SerializeService serializeService;
 
     @GetMapping("/login")
     public String login() {
@@ -20,5 +28,11 @@ public class MainController {
     @GetMapping("/admin")
     public String toAdmin() {
         return "admin";
+    }
+
+    @RequestMapping(value = "/admin/upload", method = RequestMethod.POST)
+    public String handleFileUpload(@RequestParam("file") MultipartFile file) {
+        serializeService.handleFileUploadService(file);
+        return "redirect:/admin";
     }
 }

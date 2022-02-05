@@ -13,7 +13,7 @@ services:
       - 3dModel
 
   spring:
-    image: web1:latest
+    image: web2:latest
     depends_on:
       - db
     ports:
