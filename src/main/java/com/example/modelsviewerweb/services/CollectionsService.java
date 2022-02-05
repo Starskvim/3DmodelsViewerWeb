@@ -5,7 +5,6 @@ import com.example.modelsviewerweb.entities.ModelZIP;
 import com.example.modelsviewerweb.entities.PrintModel;
 import com.example.modelsviewerweb.repositories.ModelRepositoryJPA;
 import com.example.modelsviewerweb.repositories.ModelRepositoryOTHJPA;
-import com.example.modelsviewerweb.repositories.ModelRepositoryZIPJPA;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -23,7 +22,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class CollectionsService {
 
     private final ModelRepositoryJPA modelRepositoryJPA;
-    private final ModelRepositoryZIPJPA modelRepositoryZIPJPA;
     private final ModelRepositoryOTHJPA modelRepositoryOTHJPA;
 
     private CopyOnWriteArraySet<PrintModel> printModelsToSaveList = new CopyOnWriteArraySet<>();
@@ -51,20 +49,9 @@ public class CollectionsService {
     public void saveAllListToJpaRepository () {
 
         long start = System.currentTimeMillis();
+        
 
-        long start1 = System.currentTimeMillis();
-        if (!printModelsToSaveList.isEmpty()) {
-            modelRepositoryJPA.saveAll(printModelsToSaveList);
-        }
-        long fin1 = System.currentTimeMillis();
-        System.out.println("modelRepositoryJPA.saveAll time - " + (fin1 - start1));
 
-        long start2 = System.currentTimeMillis();
-        if (!modelZIPList.isEmpty()) {
-            modelRepositoryZIPJPA.saveAll(modelZIPList);
-        }
-        long fin2 = System.currentTimeMillis();
-        System.out.println("modelRepositoryZIPJPA.saveAll time - " + (fin2 - start2));
 
         long start3 = System.currentTimeMillis();
         if (!modelOTHList.isEmpty()) {

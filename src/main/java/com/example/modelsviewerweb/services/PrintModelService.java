@@ -1,9 +1,10 @@
 package com.example.modelsviewerweb.services;
 
+import com.example.modelsviewerweb.controllers.exceptions.ModelNotFoundException;
 import com.example.modelsviewerweb.entities.ModelZIP;
 import com.example.modelsviewerweb.entities.PrintModel;
+import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.ModelRepositoryJPA;
-import com.example.modelsviewerweb.repositories.ModelRepositoryZIPJPA;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,28 +20,39 @@ import java.util.List;
 public class PrintModelService {
 
     private final ModelRepositoryJPA modelRepositoryJPA;
-    private final ModelRepositoryZIPJPA modelRepositoryZIPJPA;
 
-    public List<PrintModel> getAllModelListService(){
+    public List<PrintModelWeb> getAllModelListService(){
         return modelRepositoryJPA.findAll();
     }
 
 
-    public Page<PrintModel> findAllModelByPageAndSpecsService(Specification<PrintModel> modelSpecification, Pageable pageable){
+    public Page<PrintModelWeb> findAllModelByPageAndSpecsService(Specification<PrintModelWeb> modelSpecification, Pageable pageable){
         return modelRepositoryJPA.findAll(modelSpecification, pageable);
     }
 
-    public Page<ModelZIP> getAllZIPListByPageService(Pageable pageable){
-        return modelRepositoryZIPJPA.findAll(pageable);
-    }
-
-    public PrintModel getById (Long id) {
-        return modelRepositoryJPA.findById(id).orElse(null);
+    public PrintModelWeb getById (Long id) {
+        return modelRepositoryJPA.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
     }
 
 
-    public List<PrintModel> searchByModelNameService (String word, int page) {
+    public List<PrintModelWeb> searchByModelNameService (String word, int page) {
         return modelRepositoryJPA.findAllBymodelNameLikeIgnoreCase(word, PageRequest.of(page, 50)).toList();
+    }
+
+    public List<Integer> preparePageInt(int current, int totalPages) {
+
+        List<Integer> pageNumbers = new ArrayList<>();
+
+        int start = Math.max(current - 3, 0);
+        int end = Math.min(totalPages, start + 9);
+        pageNumbers.add(0);
+        for (int i = start; i < end; i++) {
+            if (i != 0 && i != totalPages - 1) {
+                pageNumbers.add(i);
+            }
+        }
+        pageNumbers.add(totalPages - 1);
+        return pageNumbers;
     }
 
 

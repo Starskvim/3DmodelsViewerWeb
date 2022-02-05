@@ -1,6 +1,7 @@
 package com.example.modelsviewerweb.repositories;
 
 import com.example.modelsviewerweb.entities.PrintModel;
+import com.example.modelsviewerweb.entities.PrintModelWeb;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,14 +13,14 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface ModelRepositoryJPA extends JpaRepository<PrintModel, Long>, JpaSpecificationExecutor<PrintModel> {
+public interface ModelRepositoryJPA extends JpaRepository<PrintModelWeb, Long>, JpaSpecificationExecutor<PrintModelWeb> {
 
-    Page<PrintModel> findAllBymodelNameLikeIgnoreCase(String name, Pageable page);
+    Page<PrintModelWeb> findAllBymodelNameLikeIgnoreCase(String name, Pageable page);
 
-    @Query("Select modelName from PrintModel")
+    @Query("Select modelName from PrintModelWeb")
     List<String> getAllNameModel();
 
-    PrintModel getByModelName(String nameModel);
+    PrintModelWeb getByModelName(String nameModel);
 
     void deleteAllByModelNameIn(Collection<String> deletModelSet);
 

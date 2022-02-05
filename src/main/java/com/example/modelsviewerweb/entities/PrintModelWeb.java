@@ -27,6 +27,8 @@ public class PrintModelWeb {
 
     private String modelCategory;
 
+    private String modelPath;
+
     private Long views;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)

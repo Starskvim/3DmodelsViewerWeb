@@ -21,4 +21,7 @@ public class PrintModelOthWeb {
 
     private Double othSize;
 
+    @Lob
+    private String previewOth;
+
 }

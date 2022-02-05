@@ -21,6 +21,8 @@ public class PrintModelTagWeb {
 
     private String nameTag;
 
+    private Integer countModels = 0;
+
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,
             mappedBy="modelTags")
     private List<PrintModel> printModels = new ArrayList<>();
