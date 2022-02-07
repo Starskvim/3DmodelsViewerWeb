@@ -13,7 +13,7 @@ import java.util.Collection;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PrintModelWebDTO implements Serializable {
+public class PrintModelWebDTO {
     private String modelName;
     private String modelPath;
     private Double modelSize;

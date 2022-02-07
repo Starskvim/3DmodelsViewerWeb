@@ -18,6 +18,7 @@ services:
       - db
     ports:
       - 8189:8189
+      - 8000:8000
     networks:
       - 3dModel
 

@@ -15,7 +15,7 @@ spring:
           lob:
             non_contextual_creation: 'true'
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 server:
   servlet:
     context-path: /3Dmodel

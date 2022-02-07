@@ -2,6 +2,7 @@ package com.example.modelsviewerweb.controllers;
 
 
 import com.example.modelsviewerweb.entities.ModelOTH;
+import com.example.modelsviewerweb.entities.PrintModelOthWeb;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.specifications.ModelSpecs;
 import com.example.modelsviewerweb.services.PrintModelService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping("/models")
@@ -84,14 +86,10 @@ public class PrintModelController {
     public String showOneModelPage(Model model, @PathVariable(value = "id") Long id) {
 
         PrintModelWeb printModel = printModelService.getById(id);
-
-        Collection<ModelOTH> printModelOTHList = null; // TODO
-
+        List<PrintModelOthWeb> printModelOTHList = printModel.getModelOthList();
 
         model.addAttribute("printModelOTHList", printModelOTHList);
-
         model.addAttribute("printModel", printModel);
-
 
         return "modelPage";
     }

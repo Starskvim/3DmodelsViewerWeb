@@ -1,17 +1,16 @@
 package com.example.modelsviewerweb.services;
 
 import com.example.modelsviewerweb.dto.PrintModelWebDTO;
-import com.example.modelsviewerweb.entities.PrintModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.List;
+
 
 
 @Service
@@ -22,36 +21,10 @@ public class SerializeService {
     private final CollectionsService collectionsService;
     private final JsProgressBarService jsProgressBarService;
     private final SyncAppService syncAppService;
+    private final ObjectMapper objectMapper;
 
     private static Integer total = 0;
-    private static volatile int  count = 0;
-
-    @Value("${scan.adressSer}")
-    private String adressSer;
-
-    public void serializeObj(List<PrintModel> outputList) throws IOException {
-
-
-        total = outputList.size();
-        JsProgressBarService.setTotalCount(total);
-
-        for (PrintModel printModel : outputList) {
-
-
-            FileOutputStream outputStream = new FileOutputStream(adressSer + "/" + printModel.getModelName() +".ser");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(printModel);
-            objectOutputStream.close();
-
-            count ++;
-
-            JsProgressBarService.setCurrentCount(count);
-            JsProgressBarService.setCurrentTask(count + "/" + total + " - ser - " + printModel.getModelName());
-            System.out.println(count + "/" + total + " serializeObj " + printModel.getModelName());
-
-
-        }
-    }
+    private static volatile int count = 0;
 
     @Transactional
     public void deserializeObj() throws IOException, ClassNotFoundException {
@@ -98,25 +71,16 @@ public class SerializeService {
 
     }
 
+    public void deserializePrintModelWebDTO(byte[] bytes) throws IOException{
 
-    public void deserializePrintModelWebDTO(byte[] bytes) throws IOException, ClassNotFoundException {
-
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-        System.out.println("2 byteArrayInputStream");
-        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-        System.out.println("3 objectInputStream");
-
-        Object printModelWebDTO =  objectInputStream.readObject();
-
-        System.out.println(printModelWebDTO.toString());
-
+        PrintModelWebDTO printModelWebDTO = objectMapper.readValue(bytes, PrintModelWebDTO.class);
         System.out.println("4 printModelWebDTO");
-        objectInputStream.close();
 
 //        JsProgressBarService.setCurrentTask(count + "/" + total + " - deser - " + printModelWebDTO.getModelName());
 //        System.out.println(count + "/" + total + " deserializeObj " + printModelWebDTO.getModelName());
-//
-//        syncAppService.addNewModel(printModelWebDTO);
+
+        syncAppService.addNewModel(printModelWebDTO);
+        System.out.println("5 after addNewModel");
 //
 //        System.out.println(printModelWebDTO.getModelOTHList().size() + " size list");
 
