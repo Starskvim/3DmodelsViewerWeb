@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@NamedEntityGraph(
+        name = "ForPrintModelPage.all",
+        attributeNodes = {
+                @NamedAttributeNode("modelOthList")})
 @Table
 @Getter
 @Setter

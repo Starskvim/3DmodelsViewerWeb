@@ -35,25 +35,16 @@ public class SyncAppService {
 
         PrintModelWeb printModelWeb = new PrintModelWeb();
 
-
         printModelWeb.setModelName(printModelWebDTO.getModelName());
-        log.info("1 get");
         printModelWeb.setModelSize(printModelWebDTO.getModelSize());
-        log.info("2 get");
         printModelWeb.setModelCategory(printModelWebDTO.getModelCategory());
-        log.info("3 get");
         printModelWeb.setModelSize(printModelWebDTO.getModelSize());
-        log.info("4 get");
         printModelWeb.setModelPath(printModelWebDTO.getModelPath());
-        log.info("5 get");
         printModelWeb.setViews(0L);
-        log.info("6 get");
         detectAddAndCreateTags(printModelWebDTO, printModelWeb);
-        log.info("7 get");
         addOthObj(printModelWebDTO, printModelWeb);
 
         printModelWebToSaveList.add(printModelWeb);
-
         saveNewModel();
     }
 
@@ -61,10 +52,8 @@ public class SyncAppService {
     private void detectAddAndCreateTags(PrintModelWebDTO printModelWebDTO, PrintModelWeb printModelWeb) {
 
         prepareDetectTags();
-        log.info("8 get");
         Collection<String> tagsDTO = printModelWebDTO.getModelTagsNames();
         log.info(printModelWebDTO.getModelTagsNames().toString());
-        log.info("9 get");
 
         for (String tag : tagsDTO) {
             if (assignTagMap.containsKey(tag)) {
@@ -77,6 +66,7 @@ public class SyncAppService {
                 tagObj.setNameTag(tag);
                 tagObj.getPrintModels().add(printModelWeb);
                 printModelWeb.getModelTags().add(tagObj);
+                tagObj.setCountModels(tagObj.getCountModels() + 1);
                 printModelTagWebToSaveList.add(tagObj);
                 assignTagMap.put(tag, tagObj);
             }
@@ -102,6 +92,7 @@ public class SyncAppService {
             newOth.setOthName(othWebDTO.getNameModelOTH());
             newOth.setOthSize(othWebDTO.getSizeOTH());
             newOth.setPreviewOth(othWebDTO.getPreviewOth());
+            newOth.setOthFormat(othWebDTO.getModelOTHFormat());
             printModelWeb.getModelOthList().add(newOth);
         }
 
@@ -112,7 +103,7 @@ public class SyncAppService {
 
     public void saveNewModel() {
         modelRepositoryTagsJPA.saveAll(printModelTagWebToSaveList);
-        modelRepositoryJPA.saveAll(printModelWebToSaveList);
+//        modelRepositoryJPA.saveAll(printModelWebToSaveList);
     }
 
 

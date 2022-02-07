@@ -7,7 +7,7 @@
 
     var statsTable = document.getElementById("statsTable")
     var statsModels = document.getElementById("statsModels")
-    var statsZIP = document.getElementById("statsZIP")
+    var statsTAG = document.getElementById("statsTAG")
     var statsOTH = document.getElementById("statsOTH")
     var statsSIZE = document.getElementById("statsSIZE")
 
@@ -64,12 +64,12 @@
         let statsDB = await getResponseStats()
 
         let Models = statsDB.totalModels
-        let ZIP = statsDB.totalZIP
-        let OTH = statsDB.totalZIP
+        let TAG = statsDB.totalTag
+        let OTH = statsDB.totalOTH
         let SIZE = statsDB.totalSize
 
         statsModels.innerHTML = Models
-        statsZIP.innerHTML = ZIP
+        statsTAG.innerHTML = TAG
         statsOTH.innerHTML = OTH
         statsSIZE.innerHTML = SIZE + " GB"
 

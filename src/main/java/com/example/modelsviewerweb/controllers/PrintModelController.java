@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,9 +46,7 @@ public class PrintModelController {
             filters.append("@word-").append(wordCategory);
         }
 
-
         Page<PrintModelWeb> modelsPages = printModelService.findAllModelByPageAndSpecsService(spec, pageable);
-
 
         model.addAttribute("models", modelsPages.getContent());
 
@@ -82,10 +81,12 @@ public class PrintModelController {
     }
 
 
+    @Transactional
     @GetMapping("/modelOBJ/{id}")
     public String showOneModelPage(Model model, @PathVariable(value = "id") Long id) {
 
         PrintModelWeb printModel = printModelService.getById(id);
+        printModel.setViews(printModel.getViews() + 1);
         List<PrintModelOthWeb> printModelOTHList = printModel.getModelOthList();
 
         model.addAttribute("printModelOTHList", printModelOTHList);
@@ -97,7 +98,6 @@ public class PrintModelController {
 
     @PostMapping("/search_name")
     public String searchByNameController(Model model, @ModelAttribute(value = "word") String word) {
-
         model.addAttribute("word", word);
         model.addAttribute("models", printModelService.searchByModelNameService(word, 0));
         return "models";

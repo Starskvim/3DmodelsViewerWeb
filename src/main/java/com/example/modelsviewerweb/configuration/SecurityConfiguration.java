@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/css/**",
                         "/img/**",
                         "/models/**").permitAll()
-                .antMatchers("/admin**").hasRole("USER")
+                .antMatchers("/admin**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

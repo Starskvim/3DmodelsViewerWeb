@@ -3,6 +3,7 @@ package com.example.modelsviewerweb.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -19,6 +20,8 @@ public class PrintModelOthWeb {
     private Long id;
 
     private String othName;
+
+    private String othFormat;
 
     private Double othSize;
 

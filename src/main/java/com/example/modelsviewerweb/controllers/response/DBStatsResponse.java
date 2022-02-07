@@ -13,7 +13,7 @@ public class DBStatsResponse {
 
     private Integer totalOTH;
 
-    private Integer totalZIP;
+    private Integer totalTag;
 
     private Double totalSize;
 
