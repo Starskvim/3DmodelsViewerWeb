@@ -3,6 +3,7 @@ package com.example.modelsviewerweb.services;
 import com.example.modelsviewerweb.controllers.exceptions.ModelNotFoundException;
 import com.example.modelsviewerweb.entities.ModelZIP;
 import com.example.modelsviewerweb.entities.PrintModel;
+import com.example.modelsviewerweb.entities.PrintModelOthWeb;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.ModelRepositoryJPA;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,4 +59,16 @@ public class PrintModelService {
     }
 
 
+    @Transactional
+    public void updatePreviewModel(Long id, String newPreviewName) {
+        PrintModelWeb printModel = getById(id);
+        for (PrintModelOthWeb printModelOthWeb: printModel.getModelOthList()){
+            if(printModelOthWeb.getOthName().equals(newPreviewName)){
+                printModel.setPreviewModel(printModelOthWeb);
+                System.out.println(" ok ");
+                break;
+            }
+        }
+        modelRepositoryJPA.save(printModel);
+    }
 }

@@ -66,6 +66,7 @@
             <th>Name</th>
             <th>Format</th>
             <th>Size</th>
+            <th>Set Preview</th>
 
         </tr>
         </thead>
@@ -74,6 +75,20 @@
             <td th:text="${fileOTH.othName}"/>
             <td th:text="${fileOTH.othFormat}"/>
             <td th:text="${fileOTH.othSize + ' mb.'}"/>
+
+
+            <td >
+                <form th:action="@{'/models/modelOBJ/edit/' + ${printModel.id}} + '/' + ${fileOTH.othName}"
+                      method="get" class="form-horizontal myButtonHead">
+                    <div style="margin-bottom: 14px; width: 25%" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <button type="submit" class="btn btn-primary">Set
+                        </button>
+<!--                        <input type="hidden" th:name="newPreviewName" th:value="${fileOTH.othName}">-->
+                    </div>
+                </form>
+            </td>
+
 
         </tr>
         </tbody>

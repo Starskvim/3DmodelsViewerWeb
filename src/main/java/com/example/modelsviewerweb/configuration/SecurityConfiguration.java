@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth){
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/css/**",
                         "/img/**",
                         "/models/**").permitAll()
-                .antMatchers("/admin**").hasRole("ADMIN")
+                .antMatchers("/admin**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

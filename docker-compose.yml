@@ -18,7 +18,7 @@ services:
     depends_on:
       - db
     ports:
-      - 8189:8189
+      - 8999:8999
       - 8000:8000
     networks:
       - 3dModel

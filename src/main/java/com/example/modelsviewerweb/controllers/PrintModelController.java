@@ -95,6 +95,13 @@ public class PrintModelController {
         return "modelPage";
     }
 
+    @Transactional
+    @GetMapping ("/modelOBJ/edit/{id}/{newPreviewName}")
+    public String editPreview (Model model, @PathVariable(value = "id") Long id,
+                               @PathVariable(value = "newPreviewName") String newPreviewName){
+        printModelService.updatePreviewModel(id, newPreviewName);
+        return "redirect:/models/modelOBJ/" + id;
+    }
 
     @PostMapping("/search_name")
     public String searchByNameController(Model model, @ModelAttribute(value = "word") String word) {
