@@ -1,13 +1,5 @@
 package com.example.modelsviewerweb.dto;
 
-import com.example.modelsviewerweb.entities.ModelOTH;
-import com.example.modelsviewerweb.entities.ModelZIP;
-import com.example.modelsviewerweb.entities.PrintModel;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-
 //@Component
 //@AllArgsConstructor
 //public class MapperDTO {

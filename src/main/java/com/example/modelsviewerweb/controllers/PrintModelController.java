@@ -1,7 +1,6 @@
 package com.example.modelsviewerweb.controllers;
 
 
-import com.example.modelsviewerweb.entities.ModelOTH;
 import com.example.modelsviewerweb.entities.PrintModelOthWeb;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.specifications.ModelSpecs;
@@ -17,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 @Controller

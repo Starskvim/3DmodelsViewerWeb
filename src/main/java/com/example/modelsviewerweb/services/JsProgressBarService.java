@@ -5,21 +5,23 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Service
 @RequiredArgsConstructor
 @Setter
 @Getter
 public class JsProgressBarService {
-    private static volatile Integer currentCount = 0;
+    private static volatile AtomicInteger currentCount = new AtomicInteger(0);
 
     private static volatile Integer totalCount = 0;
 
     private static volatile String currentTask = "Start Progress Bar";
 
-    public static void setCurrentCount(Integer count){
-        double count2 = (double)count;
+    public static void setCurrentCount(AtomicInteger count){
+        double count2 = count.get();
         double totalCount2 = (double) totalCount;
-        currentCount = (int) Math.round(count2 / totalCount2 * 100.0);
+        currentCount.set((int) Math.round(count2 / totalCount2 * 100.0));
     }
 
     public static void setTotalCount(int total){
@@ -31,7 +33,7 @@ public class JsProgressBarService {
     }
 
     public static Integer getCurrentCount(){
-        return currentCount;
+        return currentCount.get();
     }
 
     public static String getCurrentTask(){

@@ -36,6 +36,8 @@ public class PrintModelWeb {
 
     private Long views;
 
+    private Integer myRate;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "tags_and_models",

@@ -1,8 +1,6 @@
 package com.example.modelsviewerweb.services;
 
 import com.example.modelsviewerweb.controllers.exceptions.ModelNotFoundException;
-import com.example.modelsviewerweb.entities.ModelZIP;
-import com.example.modelsviewerweb.entities.PrintModel;
 import com.example.modelsviewerweb.entities.PrintModelOthWeb;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.ModelRepositoryJPA;
@@ -16,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

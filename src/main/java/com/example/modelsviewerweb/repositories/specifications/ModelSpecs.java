@@ -1,6 +1,5 @@
 package com.example.modelsviewerweb.repositories.specifications;
 
-import com.example.modelsviewerweb.entities.PrintModel;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import org.springframework.data.jpa.domain.Specification;
 

@@ -18,6 +18,7 @@ public class PrintModelWebDTO {
     private String modelPath;
     private Double modelSize;
     private String modelCategory;
+    private Integer myRate;
     private Collection<String> modelTagsNames;
     private Collection<PrintModelOTHWebDTO> modelOTHList = new ArrayList<>();
 

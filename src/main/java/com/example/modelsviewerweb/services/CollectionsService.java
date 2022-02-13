@@ -1,8 +1,5 @@
 package com.example.modelsviewerweb.services;
 
-import com.example.modelsviewerweb.entities.ModelOTH;
-import com.example.modelsviewerweb.entities.ModelZIP;
-import com.example.modelsviewerweb.entities.PrintModel;
 import com.example.modelsviewerweb.repositories.ModelRepositoryJPA;
 import com.example.modelsviewerweb.repositories.ModelRepositoryOTHJPA;
 import lombok.Getter;
@@ -24,9 +21,6 @@ public class CollectionsService {
     private final ModelRepositoryJPA modelRepositoryJPA;
     private final ModelRepositoryOTHJPA modelRepositoryOTHJPA;
 
-    private CopyOnWriteArraySet<PrintModel> printModelsToSaveList = new CopyOnWriteArraySet<>();
-    private CopyOnWriteArraySet<ModelOTH> modelOTHList = new CopyOnWriteArraySet<>();
-    private CopyOnWriteArraySet<ModelZIP> modelZIPList = new CopyOnWriteArraySet<>();
     private CopyOnWriteArrayList<String> zipFormatList = new CopyOnWriteArrayList<>();
     private CopyOnWriteArraySet<String> printModelsToSaveNameStringSet = new CopyOnWriteArraySet<>();
 
@@ -43,26 +37,6 @@ public class CollectionsService {
         if (printModelsToSaveNameStringSet.isEmpty()) {
             return false;
         } else return printModelsToSaveNameStringSet.contains(name);
-    }
-
-    @Transactional
-    public void saveAllListToJpaRepository () {
-
-        long start = System.currentTimeMillis();
-
-
-
-
-        long start3 = System.currentTimeMillis();
-        if (!modelOTHList.isEmpty()) {
-            modelRepositoryOTHJPA.saveAll(modelOTHList);
-        }
-        long fin3 = System.currentTimeMillis();
-        System.out.println("modelRepositoryOTHJPA.saveAll time - " + (fin3 - start3));
-
-        long fin = System.currentTimeMillis();
-        System.out.println("ALL SAVE saveAllListToJpaRepository time - " + (fin - start));
-
     }
 
     public boolean checkPrintModelsFilesSavedNameStringSet(String name){

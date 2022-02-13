@@ -41,6 +41,7 @@ public class SyncAppService {
         printModelWeb.setModelSize(printModelWebDTO.getModelSize());
         printModelWeb.setModelPath(printModelWebDTO.getModelPath());
         printModelWeb.setViews(0L);
+        printModelWeb.setMyRate(printModelWebDTO.getMyRate());
         detectAddAndCreateTags(printModelWebDTO, printModelWeb);
         addOthObj(printModelWebDTO, printModelWeb);
 

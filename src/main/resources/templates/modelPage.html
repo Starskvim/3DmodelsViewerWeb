@@ -2,7 +2,7 @@
 
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://thymeleaf.org">
+      xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Model page</title>
@@ -66,7 +66,7 @@
             <th>Name</th>
             <th>Format</th>
             <th>Size</th>
-            <th>Set Preview</th>
+            <th sec:authorize="isAuthenticated()">Set Preview</th>
 
         </tr>
         </thead>
@@ -77,14 +77,13 @@
             <td th:text="${fileOTH.othSize + ' mb.'}"/>
 
 
-            <td >
+            <td sec:authorize="isAuthenticated()">
                 <form th:action="@{'/models/modelOBJ/edit/' + ${printModel.id}} + '/' + ${fileOTH.othName}"
                       method="get" class="form-horizontal myButtonHead">
-                    <div style="margin-bottom: 14px; width: 25%" class="input-group">
+                    <div style="margin-bottom: 14px; width: 25%; background: transparent" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <button type="submit" class="btn btn-primary">Set
                         </button>
-<!--                        <input type="hidden" th:name="newPreviewName" th:value="${fileOTH.othName}">-->
                     </div>
                 </form>
             </td>
