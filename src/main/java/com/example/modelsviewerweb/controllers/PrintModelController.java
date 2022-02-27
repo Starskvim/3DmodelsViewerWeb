@@ -1,6 +1,7 @@
 package com.example.modelsviewerweb.controllers;
 
 
+import com.example.modelsviewerweb.dto.PrintModelPreviewDto;
 import com.example.modelsviewerweb.entities.PrintModelOthWeb;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.specifications.ModelSpecs;
@@ -46,15 +47,14 @@ public class PrintModelController {
 
         Page<PrintModelWeb> modelsPages = printModelService.findAllModelByPageAndSpecsService(spec, pageable);
 
-        model.addAttribute("models", modelsPages.getContent());
+        List<PrintModelPreviewDto> models = printModelService.createPreviewDto(modelsPages.getContent());
 
+        model.addAttribute("models", models);
         model.addAttribute("allPage", modelsPages.getTotalPages());
         model.addAttribute("filters", filters.toString());
         model.addAttribute("wordName", wordName);
         model.addAttribute("wordCategory", wordCategory);
-
         model.addAttribute("currentPage", pageable.getPageNumber());
-
         model.addAttribute("pageNumbers", printModelService.preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
         return "models";
     }

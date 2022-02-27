@@ -1,6 +1,8 @@
 package com.example.modelsviewerweb.services;
 
 import com.example.modelsviewerweb.controllers.exceptions.ModelNotFoundException;
+import com.example.modelsviewerweb.dto.MapperAbstract;
+import com.example.modelsviewerweb.dto.PrintModelPreviewDto;
 import com.example.modelsviewerweb.entities.PrintModelOthWeb;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.ModelRepositoryJPA;
@@ -20,11 +22,11 @@ import java.util.List;
 public class PrintModelService {
 
     private final ModelRepositoryJPA modelRepositoryJPA;
+    private final MapperAbstract mapperAbstract;
 
     public List<PrintModelWeb> getAllModelListService(){
         return modelRepositoryJPA.findAll();
     }
-
 
     public Page<PrintModelWeb> findAllModelByPageAndSpecsService(Specification<PrintModelWeb> modelSpecification, Pageable pageable){
         return modelRepositoryJPA.findAll(modelSpecification, pageable);
@@ -33,7 +35,6 @@ public class PrintModelService {
     public PrintModelWeb getById (Long id) {
         return modelRepositoryJPA.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
     }
-
 
     public List<PrintModelWeb> searchByModelNameService (String word, int page) {
         return modelRepositoryJPA.findAllBymodelNameLikeIgnoreCase(word, PageRequest.of(page, 50)).toList();
@@ -55,7 +56,6 @@ public class PrintModelService {
         return pageNumbers;
     }
 
-
     @Transactional
     public void updatePreviewModel(Long id, String newPreviewName) {
         PrintModelWeb printModel = getById(id);
@@ -67,5 +67,9 @@ public class PrintModelService {
             }
         }
         modelRepositoryJPA.save(printModel);
+    }
+
+    public List<PrintModelPreviewDto> createPreviewDto(List<PrintModelWeb> pageModels) {
+        return mapperAbstract.toPrintModelsPreviewDto(pageModels);
     }
 }

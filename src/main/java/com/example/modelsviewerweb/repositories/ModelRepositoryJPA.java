@@ -19,7 +19,7 @@ public interface ModelRepositoryJPA extends JpaRepository<PrintModelWeb, Long>, 
     // actual
     Page<PrintModelWeb> findAllBymodelNameLikeIgnoreCase(String name, Pageable page);
 
-    @EntityGraph(value = "ForPrintModelPage.all", type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(value = "ForPrintModelPage-oth", type = EntityGraph.EntityGraphType.LOAD)
     Optional<PrintModelWeb> findById(Long id);
 
     @Query("Select modelName from PrintModelWeb")

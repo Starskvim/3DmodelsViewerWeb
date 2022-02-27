@@ -7,13 +7,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @NamedEntityGraph(
-        name = "ForPrintModelPage.all",
+        name = "ForPrintModelPage-oth",
         attributeNodes = {
                 @NamedAttributeNode("modelOthList")})
 @Table
