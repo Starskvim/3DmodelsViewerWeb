@@ -59,7 +59,6 @@ public class PrintModelController {
         return "models";
     }
 
-
     @GetMapping("/deserialization")
     public String startDeserializationController() {
         long start = System.currentTimeMillis();
@@ -78,7 +77,6 @@ public class PrintModelController {
         return "good";
     }
 
-
     @Transactional
     @GetMapping("/modelOBJ/{id}")
     public String showOneModelPage(Model model, @PathVariable(value = "id") Long id) {
@@ -91,6 +89,12 @@ public class PrintModelController {
         model.addAttribute("printModel", printModel);
 
         return "modelPage";
+    }
+
+    @PostMapping("/modelOBJ/{id}/delete")
+    public String deleteModel(@PathVariable(value = "id") Long id){
+        printModelService.deleteModelById(id);
+        return "redirect:/models";
     }
 
     @Transactional

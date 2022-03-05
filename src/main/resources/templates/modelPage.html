@@ -5,7 +5,7 @@
       xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Model page</title>
+    <title>Model page Web</title>
     <!--  Иконка вкладки  -->
     <link rel="shortcut icon" th:href="@{/img/favicon.png}" type="image/png">
     <!--                  -->
@@ -34,6 +34,16 @@
                     </div>
                 </form>
             </th>
+            <th>
+                <form th:action="@{'/models/modelOBJ/' + ${printModel.id} + '/delete'}"
+                      method="post" class="form-horizontal">
+                    <div style="margin-bottom: 14px; width: 10%" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-watcher"></i></span>
+                        <button type="submit" class="btn btn-primary myButtonHead">Delete
+                        </button>
+                    </div>
+                </form>
+            </th>
         </tr>
     </table>
 </div>
@@ -42,7 +52,6 @@
 <div class="container">
     <table class="table table-hover">
         <thead>
-
         <tr>
             <th>ID</th>
             <th>Category</th>
@@ -54,10 +63,8 @@
             <td th:text="${printModel.id}"/>
             <td th:text="${printModel.modelCategory}"/>
             <td th:text="${printModel.modelName}"/>
-
         </tr>
         </tbody>
-
     </table>
 
     <table class="table table-hover">

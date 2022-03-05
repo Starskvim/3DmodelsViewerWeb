@@ -3,6 +3,7 @@ package com.example.modelsviewerweb.services;
 import com.example.modelsviewerweb.controllers.exceptions.ModelNotFoundException;
 import com.example.modelsviewerweb.dto.MapperAbstract;
 import com.example.modelsviewerweb.dto.PrintModelPreviewDto;
+import com.example.modelsviewerweb.dto.PrintModelWebDTO;
 import com.example.modelsviewerweb.entities.PrintModelOthWeb;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.ModelRepositoryJPA;
@@ -23,6 +24,7 @@ public class PrintModelService {
 
     private final ModelRepositoryJPA modelRepositoryJPA;
     private final MapperAbstract mapperAbstract;
+    private final SyncAppService syncAppService;
 
     public List<PrintModelWeb> getAllModelListService(){
         return modelRepositoryJPA.findAll();
@@ -71,5 +73,13 @@ public class PrintModelService {
 
     public List<PrintModelPreviewDto> createPreviewDto(List<PrintModelWeb> pageModels) {
         return mapperAbstract.toPrintModelsPreviewDto(pageModels);
+    }
+
+    public void addNewModel(PrintModelWebDTO inputModel) {
+        syncAppService.addNewModel(inputModel);
+    }
+
+    public void deleteModelById(Long id) {
+        modelRepositoryJPA.deleteById(id);
     }
 }
