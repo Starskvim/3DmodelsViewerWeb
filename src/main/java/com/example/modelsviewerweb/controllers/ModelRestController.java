@@ -30,10 +30,7 @@ public class ModelRestController {
         return jdbcTemplateDBStatsDao.getStats();
     }
 
-    @RequestMapping(
-            value = "/addModel",
-            method = RequestMethod.POST,
-            consumes = "application/json")
+    @RequestMapping(value = "/sync/addModel", method = RequestMethod.POST)
     public void process(@RequestBody PrintModelWebDTO inputModel) throws Exception {
         System.out.println( "input model - " + inputModel.getModelName());
         printModelService.addNewModel(inputModel);

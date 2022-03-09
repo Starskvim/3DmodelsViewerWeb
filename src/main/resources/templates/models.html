@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://thymeleaf.org">
+      xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Models Web</title>
@@ -25,46 +27,56 @@
 <body>
 
 
-<div class="container">
-    <table class="table table-hover">
-        <thead>
-
+<div class="container-fluid myNavBarAllDiv" >
+    <table class="table table-sm myNavBarTab">
         <tr>
             <th>
                 <a th:href="@{/models?size=40&page=0}"
                    class="form-horizontal">
-                    <div style="margin-bottom: 14px; width: 25%" class="input-group myButtonHead">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <button type="submit" class="btn btn-primary">Home Page
+                    <div style="margin-bottom: 14px; width: 25%" class="input-group myButtonHead myNavBarDiv">
+                        <button type="submit" class="btn btn-primary myNavBarBut">Home Page
                         </button>
                     </div>
                 </a>
             </th>
             <th>
+                <form th:action="@{/models/tagsPage}"
+                      method="get" target=»_blank» class="form-horizontal">
+                    <div style="margin-bottom: 14px; width: 25%" class="input-group myButtonHead myNavBarDiv">
+                        <button type="submit" class="btn btn-primary myNavBarBut">Tags Page
+                        </button>
+                        <!--                        <input type="hidden" name="size" th:value="200">-->
+                        <!--                        <input type="hidden" name="sort" value="archiveRatio,desc">-->
+                    </div>
+                </form>
+            </th>
+            <th>
                 <form th:action="@{/models/good}"
-                      method="get" target=»_blank» class="form-horizontal myButtonHead">
-                    <div style="margin-bottom: 14px; width: 14%" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <button type="submit" class="btn btn-primary">Test
+                      method="get" target=»_blank» class="form-horizontal myButtonHead ">
+                    <div style="margin-bottom: 14px; width: 14%" class="input-group myNavBarDiv">
+                        <button type="submit" class="btn btn-primary myNavBarBut">Test
                         </button>
                     </div>
                 </form>
             </th>
-
             <th>
                 <form th:action="@{/admin}"
                       method="get" target=»_blank» class="form-horizontal myButtonHead">
-                    <div style="margin-bottom: 14px; width: 25%" class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <div style="margin-bottom: 14px; width: 25%" class="input-group myNavBarDiv" >
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-watcher"></i></span>
                         <button type="submit" class="btn btn-primary">Admin Page
                         </button>
                     </div>
                 </form>
             </th>
+            <th sec:authorize="isAuthenticated()">
+                <div style="background: transparent; display: flex;" th:text="${#authentication.name}">
+
+                </div>
+            </th>
+
         </tr>
-
     </table>
-
 </div>
 
 <div class="container">

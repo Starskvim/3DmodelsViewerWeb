@@ -2,6 +2,7 @@ package com.example.modelsviewerweb.controllers;
 
 
 import com.example.modelsviewerweb.dto.PrintModelPreviewDto;
+import com.example.modelsviewerweb.dto.PrintModelWebDTO;
 import com.example.modelsviewerweb.entities.PrintModelOthWeb;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.specifications.ModelSpecs;
@@ -47,7 +48,10 @@ public class PrintModelController {
 
         Page<PrintModelWeb> modelsPages = printModelService.findAllModelByPageAndSpecsService(spec, pageable);
 
+        long start1 = System.currentTimeMillis();
         List<PrintModelPreviewDto> models = printModelService.createPreviewDto(modelsPages.getContent());
+        long fin1 = System.currentTimeMillis();
+        System.out.println("Create dto PrintModel " + pageable.getPageNumber() + " Time " + (fin1 - start1));
 
         model.addAttribute("models", models);
         model.addAttribute("allPage", modelsPages.getTotalPages());
@@ -111,5 +115,6 @@ public class PrintModelController {
         model.addAttribute("models", printModelService.searchByModelNameService(word, 0));
         return "models";
     }
+
 
 }
