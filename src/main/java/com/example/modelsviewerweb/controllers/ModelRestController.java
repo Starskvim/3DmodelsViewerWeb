@@ -31,7 +31,7 @@ public class ModelRestController {
     }
 
     @RequestMapping(value = "/sync/addModel", method = RequestMethod.POST)
-    public void process(@RequestBody PrintModelWebDTO inputModel) throws Exception {
+    public void process(@RequestBody PrintModelWebDTO inputModel) {
         System.out.println( "input model - " + inputModel.getModelName());
         printModelService.addNewModel(inputModel);
     }

@@ -2,6 +2,7 @@ package com.example.modelsviewerweb.configuration;
 
 
 import com.example.modelsviewerweb.services.security.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,16 +46,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
                 .antMatchers(
+
                         "/registration**",
                         "/js/**",
                         "/css/**",
                         "/img/**",
                         "/models/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/sync**").permitAll()
+                .antMatchers(HttpMethod.POST, "/sync/**").permitAll()
                 .antMatchers("/admin**").hasRole("USER")
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -65,7 +68,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
-                .permitAll();
+                .permitAll()
+                .and()
+                .csrf().disable();
     }
 
 }

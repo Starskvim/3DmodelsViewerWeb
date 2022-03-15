@@ -33,6 +33,8 @@ public class SyncAppService {
 
     public void addNewModel(PrintModelWebDTO printModelWebDTO) {
 
+        System.out.println("addNewModel");
+
         PrintModelWeb printModelWeb = new PrintModelWeb();
 
         printModelWeb.setModelName(printModelWebDTO.getModelName());
@@ -40,12 +42,29 @@ public class SyncAppService {
         printModelWeb.setModelCategory(printModelWebDTO.getModelCategory());
         printModelWeb.setModelSize(printModelWebDTO.getModelSize());
         printModelWeb.setModelPath(printModelWebDTO.getModelPath());
+
+        System.out.println("addNewModel setViews");
+
         printModelWeb.setViews(0L);
+
+        System.out.println("addNewModel setMyRate");
+
         printModelWeb.setMyRate(printModelWebDTO.getMyRate());
+
+        System.out.println("addNewModel detectAddAndCreateTags");
+
         detectAddAndCreateTags(printModelWebDTO, printModelWeb);
+
+        System.out.println("addNewModel addOthObj");
+
         addOthObj(printModelWebDTO, printModelWeb);
 
+        System.out.println("addNewModel printModelWebToSaveList");
+
         printModelWebToSaveList.add(printModelWeb);
+
+        System.out.println("addNewModel saveNewModel()");
+
         saveNewModel();
     }
 
