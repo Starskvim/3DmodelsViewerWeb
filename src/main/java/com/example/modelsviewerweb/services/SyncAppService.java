@@ -35,6 +35,9 @@ public class SyncAppService {
 
         System.out.println("addNewModel");
 
+        System.out.println(printModelWebDTO.getModelTagsNames().stream().map(Object::toString)
+                .collect(Collectors.joining(", ")));
+
         PrintModelWeb printModelWeb = new PrintModelWeb();
 
         printModelWeb.setModelName(printModelWebDTO.getModelName());
@@ -42,29 +45,11 @@ public class SyncAppService {
         printModelWeb.setModelCategory(printModelWebDTO.getModelCategory());
         printModelWeb.setModelSize(printModelWebDTO.getModelSize());
         printModelWeb.setModelPath(printModelWebDTO.getModelPath());
-
-        System.out.println("addNewModel setViews");
-
         printModelWeb.setViews(0L);
-
-        System.out.println("addNewModel setMyRate");
-
         printModelWeb.setMyRate(printModelWebDTO.getMyRate());
-
-        System.out.println("addNewModel detectAddAndCreateTags");
-
         detectAddAndCreateTags(printModelWebDTO, printModelWeb);
-
-        System.out.println("addNewModel addOthObj");
-
         addOthObj(printModelWebDTO, printModelWeb);
-
-        System.out.println("addNewModel printModelWebToSaveList");
-
         printModelWebToSaveList.add(printModelWeb);
-
-        System.out.println("addNewModel saveNewModel()");
-
         saveNewModel();
     }
 
@@ -72,6 +57,7 @@ public class SyncAppService {
     private void detectAddAndCreateTags(PrintModelWebDTO printModelWebDTO, PrintModelWeb printModelWeb) {
 
         prepareDetectTags();
+
         Collection<String> tagsDTO = printModelWebDTO.getModelTagsNames();
         log.info(printModelWebDTO.getModelTagsNames().toString());
 
@@ -96,11 +82,22 @@ public class SyncAppService {
     public void prepareDetectTags() {
         printModelWebToSaveList = new ArrayList<>();
         printModelTagWebToSaveList = new ArrayList<>();
-        assignTagMap = new ConcurrentHashMap<>();
+        assignTagMap = new HashMap<>();
+
+        System.out.println("prepareDetectTags new HashSet()");
         Set<PrintModelTagWeb> printModelTagWebSavedSet = new HashSet<>(modelRepositoryTagsJPA.findAll());
 
-        assignTagMap = printModelTagWebSavedSet.stream()
-                .collect(Collectors.toConcurrentMap(PrintModelTagWeb::getNameTag, Function.identity()));
+        for (PrintModelTagWeb tag : printModelTagWebSavedSet) {
+            if (tag != null) {
+                assignTagMap.put(tag.getNameTag(), tag);
+                System.out.println("assignTagMap.put " + tag.getNameTag());
+            }
+        }
+
+//        assignTagMap = printModelTagWebSavedSet.stream()
+//                .collect(Collectors.toConcurrentMap(PrintModelTagWeb::getNameTag, Function.identity()));
+
+        System.out.println("printModelTagWebSavedSet - size " + assignTagMap.size());
     }
 
     private void addOthObj(PrintModelWebDTO printModelWebDTO, PrintModelWeb printModelWeb) {

@@ -32,12 +32,12 @@ public class PrintModelTagWeb {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PrintModelTagWeb that = (PrintModelTagWeb) o;
-        return nameTag.equals(that.nameTag) && Objects.equals(printModels, that.printModels);
+        PrintModelTagWeb modelTag = (PrintModelTagWeb) o;
+        return Objects.equals(nameTag, modelTag.nameTag);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nameTag, printModels);
+        return Objects.hash(nameTag);
     }
 }
