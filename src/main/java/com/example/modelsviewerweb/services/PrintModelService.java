@@ -7,6 +7,7 @@ import com.example.modelsviewerweb.dto.PrintModelWebDTO;
 import com.example.modelsviewerweb.entities.PrintModelOthWeb;
 import com.example.modelsviewerweb.entities.PrintModelWeb;
 import com.example.modelsviewerweb.repositories.ModelRepositoryJPA;
+import com.example.modelsviewerweb.repositories.ModelRepositoryTagsJPA;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,8 +24,10 @@ import java.util.List;
 public class PrintModelService {
 
     private final ModelRepositoryJPA modelRepositoryJPA;
+    private final ModelRepositoryTagsJPA modelRepositoryTagsJPA;
     private final MapperAbstract mapperAbstract;
     private final SyncAppService syncAppService;
+
 
     public List<PrintModelWeb> getAllModelListService(){
         return modelRepositoryJPA.findAll();
@@ -81,5 +84,13 @@ public class PrintModelService {
 
     public void deleteModelById(Long id) {
         modelRepositoryJPA.deleteById(id);
+    }
+
+    public List<String> getAllTagsName() {
+        return modelRepositoryTagsJPA.getAllNameTags();
+    }
+
+    public Page<PrintModelWeb> getAllModelByTagService(String tag, Pageable pageable){
+        return modelRepositoryJPA.findAllByModelTags_NameTagContaining(tag, pageable);
     }
 }

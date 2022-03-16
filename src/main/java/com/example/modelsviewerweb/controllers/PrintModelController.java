@@ -81,6 +81,38 @@ public class PrintModelController {
         return "good";
     }
 
+    @GetMapping("/tagsPage")
+    public String showTagsListController(Model model) {
+
+        List<String> modelTagList = printModelService.getAllTagsName();
+
+        model.addAttribute("modelTagList", modelTagList);
+        return "tagsPage";
+    }
+
+    @GetMapping("/modelsByTag")
+    public String showTagPage (Model model, Pageable pageable, @RequestParam(value = "tag") String tag){
+
+
+        System.out.println(tag);
+
+        Page<PrintModelWeb> modelsPages = printModelService.getAllModelByTagService(tag, pageable);
+
+        long start2 = System.currentTimeMillis();
+        List<PrintModelPreviewDto> resultList = printModelService.createPreviewDto(modelsPages.getContent());
+        long fin2 = System.currentTimeMillis();
+        System.out.println("Create page " + pageable.getPageNumber() + " Time " + (fin2 - start2));
+
+        model.addAttribute("tag", tag);
+        model.addAttribute("models", resultList);
+        model.addAttribute("allPage", modelsPages.getTotalPages());
+        model.addAttribute("currentPage", pageable.getPageNumber());
+        model.addAttribute("pageNumbers",
+                printModelService.preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
+
+        return "modelsByTag";
+    }
+
     @Transactional
     @GetMapping("/modelOBJ/{id}")
     public String showOneModelPage(Model model, @PathVariable(value = "id") Long id) {

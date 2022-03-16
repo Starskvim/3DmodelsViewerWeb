@@ -19,4 +19,6 @@ spring:
 server:
   servlet:
     context-path: /3Dmodel
+  tomcat:
+    relaxed-query-chars: '|,{,},[,]'
   port: 8999
