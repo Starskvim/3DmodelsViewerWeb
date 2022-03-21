@@ -10,11 +10,10 @@ import com.example.modelsviewerweb.repositories.ModelRepositoryTagsJPA;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,24 +21,20 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SyncAppService {
 
-
     private final ModelRepositoryJPA modelRepositoryJPA;
     private final ModelRepositoryTagsJPA modelRepositoryTagsJPA;
-
     private static List<PrintModelWeb> printModelWebToSaveList;
     private static List<PrintModelTagWeb> printModelTagWebToSaveList;
 
     private static Map<String, PrintModelTagWeb> assignTagMap;
 
+    public static Boolean cashReady = false;
+
     public void addNewModel(PrintModelWebDTO printModelWebDTO) {
 
         System.out.println("addNewModel");
 
-        System.out.println(printModelWebDTO.getModelTagsNames().stream().map(Object::toString)
-                .collect(Collectors.joining(", ")));
-
         PrintModelWeb printModelWeb = new PrintModelWeb();
-
         printModelWeb.setModelName(printModelWebDTO.getModelName());
         printModelWeb.setModelSize(printModelWebDTO.getModelSize());
         printModelWeb.setModelCategory(printModelWebDTO.getModelCategory());
@@ -54,28 +49,42 @@ public class SyncAppService {
     }
 
 
-    private void detectAddAndCreateTags(PrintModelWebDTO printModelWebDTO, PrintModelWeb printModelWeb) {
+    @Transactional
+    public void detectAddAndCreateTags(PrintModelWebDTO printModelWebDTO, PrintModelWeb printModelWeb) {
 
-        prepareDetectTags();
+        if (!cashReady) {
+            prepareDetectTags();
+            cashReady = true;
+        }
 
         Collection<String> tagsDTO = printModelWebDTO.getModelTagsNames();
-        log.info(printModelWebDTO.getModelTagsNames().toString());
+
+        log.info("tagsDTO ---" + tagsDTO.size() + "---" + printModelWebDTO.getModelTagsNames().toString());
+
 
         for (String tag : tagsDTO) {
-            if (assignTagMap.containsKey(tag)) {
-                PrintModelTagWeb currentTag = assignTagMap.get(tag);
-                currentTag.getPrintModels().add(printModelWeb);
-                printModelWeb.getModelTags().add(currentTag);
-                printModelTagWebToSaveList.add(currentTag);
-            } else {
-                PrintModelTagWeb tagObj = new PrintModelTagWeb();
-                tagObj.setNameTag(tag);
-                tagObj.getPrintModels().add(printModelWeb);
-                printModelWeb.getModelTags().add(tagObj);
-                tagObj.setCountModels(tagObj.getCountModels() + 1);
-                printModelTagWebToSaveList.add(tagObj);
-                assignTagMap.put(tag, tagObj);
-            }
+
+                if (assignTagMap.containsKey(tag)) {
+                    PrintModelTagWeb currentTag = assignTagMap.get(tag);
+
+//                    currentTag.getPrintModels().add(printModelWeb);
+
+                    Collection<PrintModelWeb> models = currentTag.getPrintModels();
+
+                    models.add(printModelWeb);
+
+                    printModelWeb.getModelTags().add(currentTag);
+                    printModelTagWebToSaveList.add(currentTag);
+                } else {
+                    PrintModelTagWeb tagObj = new PrintModelTagWeb();
+                    tagObj.setNameTag(tag);
+                    tagObj.getPrintModels().add(printModelWeb);
+                    printModelWeb.getModelTags().add(tagObj);
+                    tagObj.setCountModels(tagObj.getCountModels() + 1);
+                    printModelTagWebToSaveList.add(tagObj);
+                    assignTagMap.put(tag, tagObj);
+                }
+
         }
     }
 
@@ -88,7 +97,7 @@ public class SyncAppService {
         Set<PrintModelTagWeb> printModelTagWebSavedSet = new HashSet<>(modelRepositoryTagsJPA.findAll());
 
         for (PrintModelTagWeb tag : printModelTagWebSavedSet) {
-            if (tag != null) {
+            if (tag.getNameTag() != null) {
                 assignTagMap.put(tag.getNameTag(), tag);
                 System.out.println("assignTagMap.put " + tag.getNameTag());
             }

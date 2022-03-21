@@ -34,6 +34,4 @@ public interface ModelRepositoryJPA extends JpaRepository<PrintModelWeb, Long>, 
 
     void deleteAllByModelNameIn(Collection<String> deletModelSet);
 
-
-
 }

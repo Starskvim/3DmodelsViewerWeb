@@ -93,4 +93,8 @@ public class PrintModelService {
     public Page<PrintModelWeb> getAllModelByTagService(String tag, Pageable pageable){
         return modelRepositoryJPA.findAllByModelTags_NameTagContaining(tag, pageable);
     }
+
+    public List<String> getAllSavedNameModel() {
+        return modelRepositoryJPA.getAllNameModel();
+    }
 }

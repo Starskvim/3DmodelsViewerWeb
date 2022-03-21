@@ -10,6 +10,8 @@ import com.example.modelsviewerweb.services.SyncAppService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class ModelRestController {
@@ -28,6 +30,11 @@ public class ModelRestController {
     @GetMapping(value = "/stats")
     public DBStatsResponse getStats(){
         return jdbcTemplateDBStatsDao.getStats();
+    }
+
+    @GetMapping(value = "/sync/getModels")
+    public List<String> getSavedModels(){
+        return printModelService.getAllSavedNameModel();
     }
 
     @RequestMapping(value = "/sync/addModel", method = RequestMethod.POST)
