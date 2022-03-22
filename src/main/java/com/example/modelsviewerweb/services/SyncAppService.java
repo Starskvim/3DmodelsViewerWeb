@@ -12,9 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,11 +65,10 @@ public class SyncAppService {
                 if (assignTagMap.containsKey(tag)) {
                     PrintModelTagWeb currentTag = assignTagMap.get(tag);
 
-//                    currentTag.getPrintModels().add(printModelWeb);
+                    currentTag.getPrintModels().add(printModelWeb);
 
-                    Collection<PrintModelWeb> models = currentTag.getPrintModels();
-
-                    models.add(printModelWeb);
+//                    Collection<PrintModelWeb> models = currentTag.getPrintModels();
+//                    models.add(printModelWeb);
 
                     printModelWeb.getModelTags().add(currentTag);
                     printModelTagWebToSaveList.add(currentTag);
@@ -93,13 +90,15 @@ public class SyncAppService {
         printModelTagWebToSaveList = new ArrayList<>();
         assignTagMap = new HashMap<>();
 
-        System.out.println("prepareDetectTags new HashSet()");
-        Set<PrintModelTagWeb> printModelTagWebSavedSet = new HashSet<>(modelRepositoryTagsJPA.findAll());
+        System.out.println("prepareDetectTags new ArrayList()");
+        Collection<PrintModelTagWeb> printModelTagWebSavedList = new ArrayList<>(modelRepositoryTagsJPA.findAll());
 
-        for (PrintModelTagWeb tag : printModelTagWebSavedSet) {
-            if (tag.getNameTag() != null) {
-                assignTagMap.put(tag.getNameTag(), tag);
-                System.out.println("assignTagMap.put " + tag.getNameTag());
+        if(printModelTagWebSavedList.size() != 0) {
+            for (PrintModelTagWeb tag : printModelTagWebSavedList) {
+                if (tag.getNameTag() != null) {
+                    assignTagMap.put(tag.getNameTag(), tag);
+                    System.out.println("assignTagMap.put " + tag.getNameTag());
+                }
             }
         }
 
@@ -129,6 +128,7 @@ public class SyncAppService {
 
     public void saveNewModel() {
         modelRepositoryTagsJPA.saveAll(printModelTagWebToSaveList);
+        printModelTagWebToSaveList.clear();
 //        modelRepositoryJPA.saveAll(printModelWebToSaveList);
     }
 

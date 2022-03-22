@@ -33,6 +33,7 @@ public class PrintModelService {
         return modelRepositoryJPA.findAll();
     }
 
+//    @Transactional
     public Page<PrintModelWeb> findAllModelByPageAndSpecsService(Specification<PrintModelWeb> modelSpecification, Pageable pageable){
         return modelRepositoryJPA.findAll(modelSpecification, pageable);
     }

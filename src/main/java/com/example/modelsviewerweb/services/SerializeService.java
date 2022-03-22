@@ -26,51 +26,6 @@ public class SerializeService {
     private static Integer total = 0;
     private static volatile int count = 0;
 
-    @Transactional
-    public void deserializeObj() throws IOException, ClassNotFoundException {
-
-//        CopyOnWriteArraySet<PrintModel> printModelsToSaveList = collectionsService.getPrintModelsToSaveList();
-//        CopyOnWriteArraySet<ModelOTH> modelOTHList = collectionsService.getModelOTHList();
-//        CopyOnWriteArraySet<ModelZIP> modelZIPList = collectionsService.getModelZIPList();
-//
-//        Collection<File> inputSer = folderScanRepository.startScanRepository(false);
-//
-//        int count = 0;
-//        int total = inputSer.size();
-//        JsProgressBarService.setTotalCount(total);
-//
-//        for (File file: inputSer) {
-//
-//            FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
-//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//            PrintModel printModel = (PrintModel) objectInputStream.readObject();
-//            objectInputStream.close();
-//
-//            printModel.setId(0L);
-//
-//            for (ModelZIP modelZIP: printModel.getModelZIPSet()){
-//                modelZIP.setId(0L);
-//            }
-//            for (ModelOTH modelOTH: printModel.getModelOTHSet()){
-//                modelOTH.setId(0L);
-//            }
-//
-//            printModelsToSaveList.add(printModel);
-//
-//            count ++;
-//            JsProgressBarService.setCurrentCount(count);
-//            JsProgressBarService.setCurrentTask(count + "/" + total + " - deser - " + printModel.getModelName());
-//            System.out.println(count + "/" + total + " deserializeObj " + printModel.getModelName());
-//        }
-//
-//        System.out.println(printModelsToSaveList.size() + " printModelsToSaveList");
-//        System.out.println(modelOTHList.size() + " modelOTHList");
-//        System.out.println(modelZIPList.size() + " modelZIPList");
-//
-//        collectionsService.saveAllListToJpaRepository();
-
-    }
-
     public void deserializePrintModelWebDTO(byte[] bytes) throws IOException{
 
         PrintModelWebDTO printModelWebDTO = objectMapper.readValue(bytes, PrintModelWebDTO.class);

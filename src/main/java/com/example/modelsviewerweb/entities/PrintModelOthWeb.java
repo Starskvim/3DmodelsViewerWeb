@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "print_model_oth_web")
 @Getter
 @Setter
 @NoArgsConstructor

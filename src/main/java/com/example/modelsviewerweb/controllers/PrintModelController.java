@@ -27,6 +27,7 @@ public class PrintModelController {
     private final PrintModelService printModelService;
     private final SerializeService serializeService;
 
+    @Transactional(readOnly = true)
     @GetMapping
     public String modelsController(Model model,
                                    Pageable pageable,
@@ -61,19 +62,6 @@ public class PrintModelController {
         model.addAttribute("currentPage", pageable.getPageNumber());
         model.addAttribute("pageNumbers", printModelService.preparePageInt(pageable.getPageNumber(), modelsPages.getTotalPages()));
         return "models";
-    }
-
-    @GetMapping("/deserialization")
-    public String startDeserializationController() {
-        long start = System.currentTimeMillis();
-        try {
-            serializeService.deserializeObj();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        long fin = System.currentTimeMillis();
-        System.out.println("startSerializationController time ser - " + (fin - start));
-        return "admin";
     }
 
     @GetMapping("/good")
@@ -113,7 +101,7 @@ public class PrintModelController {
         return "modelsByTag";
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @GetMapping("/modelOBJ/{id}")
     public String showOneModelPage(Model model, @PathVariable(value = "id") Long id) {
 

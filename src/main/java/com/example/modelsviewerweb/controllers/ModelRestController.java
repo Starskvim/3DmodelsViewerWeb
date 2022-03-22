@@ -29,7 +29,13 @@ public class ModelRestController {
 
     @GetMapping(value = "/stats")
     public DBStatsResponse getStats(){
-        return jdbcTemplateDBStatsDao.getStats();
+        System.out.println("getStats");
+
+        DBStatsResponse result = jdbcTemplateDBStatsDao.getStats();
+
+        System.out.println(result.getTotalTag());
+
+        return result;
     }
 
     @GetMapping(value = "/sync/getModels")

@@ -12,10 +12,14 @@ import java.util.Objects;
 
 @Entity
 @NamedEntityGraph(
-        name = "ForPrintModelPage-oth",
+        name = "ForPrintModelPage",
         attributeNodes = {
                 @NamedAttributeNode("modelOthList")})
-@Table
+@NamedEntityGraph(
+        name = "ForPrintModelPreview",
+        attributeNodes = {
+                @NamedAttributeNode("previewModel")})
+@Table(name = "print_model_web")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,7 +48,7 @@ public class PrintModelWeb {
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<PrintModelTagWeb> modelTags = new ArrayList<>();
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn
     private PrintModelOthWeb previewModel;
 

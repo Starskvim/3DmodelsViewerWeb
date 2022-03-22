@@ -10,7 +10,11 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table
+@NamedEntityGraph(
+        name = "TagWithModels",
+        attributeNodes = {
+                @NamedAttributeNode("printModels")})
+@Table(name = "print_model_tag")
 @RequiredArgsConstructor
 @Setter
 @Getter

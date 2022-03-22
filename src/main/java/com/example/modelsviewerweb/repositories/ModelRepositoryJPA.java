@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,12 +17,12 @@ import java.util.Optional;
 public interface ModelRepositoryJPA extends JpaRepository<PrintModelWeb, Long>, JpaSpecificationExecutor<PrintModelWeb> {
 
     // actual
+    @EntityGraph(value = "ForPrintModelPreview", type = EntityGraph.EntityGraphType.LOAD)
     Page<PrintModelWeb> findAllBymodelNameLikeIgnoreCase(String name, Pageable page);
 
-    @EntityGraph(value = "ForPrintModelPage-oth", type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(value = "ForPrintModelPage", type = EntityGraph.EntityGraphType.LOAD)
     Optional<PrintModelWeb> findById(Long id);
 
-    @Transactional
     Page<PrintModelWeb> findAllByModelTags_NameTagContaining(String nameTag, Pageable pageable); // TODO bad
 
     @Query("Select modelName from PrintModelWeb")
