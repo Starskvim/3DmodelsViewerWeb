@@ -7,7 +7,7 @@
 
     var statsTable = document.getElementById("statsTable")
     var statsModels = document.getElementById("statsModels")
-    var statsTAG = document.getElementById("statsTAG")
+    var statsTAG = document.getElementById("statsTag")
     var statsOTH = document.getElementById("statsOTH")
     var statsSIZE = document.getElementById("statsSIZE")
 
@@ -61,6 +61,8 @@
     }
 
     const stats = async () => {
+        statsTable.classList.remove("invisibleLoad")
+
         let statsDB = await getResponseStats()
 
         let Models = statsDB.totalModels
@@ -68,11 +70,15 @@
         let OTH = statsDB.totalOTH
         let SIZE = statsDB.totalSize
 
+        console.log(Models)
+        console.log(TAG)
+        console.log(OTH)
+        console.log(SIZE)
+
         statsModels.innerHTML = Models
         statsTAG.innerHTML = TAG
         statsOTH.innerHTML = OTH
         statsSIZE.innerHTML = SIZE + " GB"
 
-        statsTable.classList.remove("invisibleLoad")
 
     }

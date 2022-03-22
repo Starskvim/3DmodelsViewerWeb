@@ -21,7 +21,7 @@ public class SyncAppService {
 
     private final ModelRepositoryJPA modelRepositoryJPA;
     private final ModelRepositoryTagsJPA modelRepositoryTagsJPA;
-    private static List<PrintModelWeb> printModelWebToSaveList;
+    private static Set<PrintModelWeb> printModelWebToSave;
     private static List<PrintModelTagWeb> printModelTagWebToSaveList;
 
     private static Map<String, PrintModelTagWeb> assignTagMap;
@@ -42,7 +42,7 @@ public class SyncAppService {
         printModelWeb.setMyRate(printModelWebDTO.getMyRate());
         detectAddAndCreateTags(printModelWebDTO, printModelWeb);
         addOthObj(printModelWebDTO, printModelWeb);
-        printModelWebToSaveList.add(printModelWeb);
+        printModelWebToSave.add(printModelWeb);
         saveNewModel();
     }
 
@@ -86,7 +86,7 @@ public class SyncAppService {
     }
 
     public void prepareDetectTags() {
-        printModelWebToSaveList = new ArrayList<>();
+        printModelWebToSave = new HashSet<>();
         printModelTagWebToSaveList = new ArrayList<>();
         assignTagMap = new HashMap<>();
 

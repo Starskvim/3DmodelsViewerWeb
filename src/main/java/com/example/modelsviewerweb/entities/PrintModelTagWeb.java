@@ -28,7 +28,7 @@ public class PrintModelTagWeb {
 
     private Integer countModels = 0;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY,
             mappedBy="modelTags")
     private List<PrintModelWeb> printModels = new ArrayList<>();
 

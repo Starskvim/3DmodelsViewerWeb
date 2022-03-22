@@ -33,7 +33,10 @@ public class ModelRestController {
 
         DBStatsResponse result = jdbcTemplateDBStatsDao.getStats();
 
+        System.out.println(result.getTotalModels());
         System.out.println(result.getTotalTag());
+        System.out.println(result.getTotalOTH());
+        System.out.println(result.getTotalSize());
 
         return result;
     }
