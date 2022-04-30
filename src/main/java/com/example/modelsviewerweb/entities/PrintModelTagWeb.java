@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @NamedEntityGraph(
@@ -28,9 +26,9 @@ public class PrintModelTagWeb {
 
     private Integer countModels = 0;
 
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY,
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,
             mappedBy="modelTags")
-    private List<PrintModelWeb> printModels = new ArrayList<>();
+    private Set<PrintModelWeb> printModels = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

@@ -40,8 +40,12 @@ public class SyncAppService {
         printModelWeb.setModelPath(printModelWebDTO.getModelPath());
         printModelWeb.setViews(0L);
         printModelWeb.setMyRate(printModelWebDTO.getMyRate());
-        detectAddAndCreateTags(printModelWebDTO, printModelWeb);
         addOthObj(printModelWebDTO, printModelWeb);
+
+        printModelWeb = modelRepositoryJPA.save(printModelWeb);
+
+        detectAddAndCreateTags(printModelWebDTO, printModelWeb);
+
         printModelWebToSave.add(printModelWeb);
         saveNewModel();
     }
@@ -50,10 +54,10 @@ public class SyncAppService {
     @Transactional
     public void detectAddAndCreateTags(PrintModelWebDTO printModelWebDTO, PrintModelWeb printModelWeb) {
 
-        if (!cashReady) {
+//        if (!cashReady) {
             prepareDetectTags();
-            cashReady = true;
-        }
+//            cashReady = true;
+//        }
 
         Collection<String> tagsDTO = printModelWebDTO.getModelTagsNames();
 
@@ -71,13 +75,19 @@ public class SyncAppService {
 //                    models.add(printModelWeb);
 
                     printModelWeb.getModelTags().add(currentTag);
+
                     printModelTagWebToSaveList.add(currentTag);
+
                 } else {
                     PrintModelTagWeb tagObj = new PrintModelTagWeb();
                     tagObj.setNameTag(tag);
+
+//                    tagObj = modelRepositoryTagsJPA.save(tagObj);
+
                     tagObj.getPrintModels().add(printModelWeb);
                     printModelWeb.getModelTags().add(tagObj);
                     tagObj.setCountModels(tagObj.getCountModels() + 1);
+
                     printModelTagWebToSaveList.add(tagObj);
                     assignTagMap.put(tag, tagObj);
                 }
@@ -91,7 +101,7 @@ public class SyncAppService {
         assignTagMap = new HashMap<>();
 
         System.out.println("prepareDetectTags new ArrayList()");
-        Collection<PrintModelTagWeb> printModelTagWebSavedList = new ArrayList<>(modelRepositoryTagsJPA.findAll());
+        Collection<PrintModelTagWeb> printModelTagWebSavedList = modelRepositoryTagsJPA.findAll();
 
         if(printModelTagWebSavedList.size() != 0) {
             for (PrintModelTagWeb tag : printModelTagWebSavedList) {
